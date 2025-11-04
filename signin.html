@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign in — Visionary Youth Group</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <main class="auth-container">
+        <h2>Member Sign in</h2>
+        <form id="signinForm" novalidate>
+            <label>Member No or Email
+        <input id="memberNo" name="memberNo" placeholder="e.g. VYG-0001 or you@example.com" required>
+      </label>
+
+            <label>Password
+        <input id="password" name="password" type="password" required>
+      </label>
+
+            <div class="auth-actions">
+                <a href="reset.html">Forgot password?</a> |
+                <a href="signup.html">Sign up</a>
+            </div>
+
+            <button type="submit" class="btn">Sign in</button>
+            <p id="signinMessage" class="msg"></p>
+        </form>
+    </main>
+
+    <script src="assets/app.js"></script>
+</body>
+
+</html>

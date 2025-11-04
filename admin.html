@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin — Visionary Youth Group</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Admin Dashboard</h1>
+            <div>
+                <span id="adminName"></span>
+                <button id="logoutBtn" class="btn ghost">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h3>Loan Applications</h3>
+            <table class="table" id="adminLoansTable">
+                <thead>
+                    <tr>
+                        <th>Serial</th>
+                        <th>Member</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <section class="card">
+            <h3>Upload Notice / PDF</h3>
+            <form id="noticeForm">
+                <input id="noticeTitle" placeholder="Title" required />
+                <textarea id="noticeDescription" placeholder="Description"></textarea>
+                <input type="file" id="noticeFile" />
+                <button type="submit" class="btn">Upload Notice</button>
+                <p id="noticeMessage" class="msg"></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="assets/app.js"></script>
+    <script src="assets/admin.js"></script>
+</body>
+
+</html>

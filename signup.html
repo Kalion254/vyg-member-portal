@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign up — Visionary Youth Group</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <main class="auth-container">
+        <h2>Create your account</h2>
+        <form id="signupForm" novalidate>
+            <label>Full name
+        <input id="fullname" required />
+      </label>
+
+            <label>Email
+        <input id="email" type="email" required />
+      </label>
+
+            <label>Password (min 8 chars, mix of letters & numbers recommended)
+        <input id="su_password" type="password" minlength="8" required />
+      </label>
+
+            <label>Confirm password
+        <input id="su_confirm" type="password" minlength="8" required />
+      </label>
+
+            <div class="muted">An activation email will be sent — you must verify to sign in.</div>
+
+            <button type="submit" class="btn">Create account</button>
+            <p id="signupMessage" class="msg"></p>
+            <div class="links">
+                <a href="index.html">Back to home</a>
+            </div>
+        </form>
+    </main>
+
+    <script src="assets/app.js"></script>
+</body>
+
+</html>

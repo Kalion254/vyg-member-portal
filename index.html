@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Visionary Youth Group — Portal</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">VISIONARY YOUTH GROUP</h1>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="index.html#payments">Payments</a>
+        <a href="index.html#signin">Sign in</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container hero">
+    <div class="hero-card">
+      <h2>Welcome — Visionary Youth Group 2024 (Nairobi)</h2>
+      <p class="lead">Members portal: loans, shares, events, statements and more.</p>
+
+      <div class="row gap">
+        <a class="btn" href="signin.html" id="signinLink">Sign in</a>
+        <a class="btn ghost" href="downloads/registration-form.pdf" id="downloadRegistration">Download registration form</a>
+      </div>
+    </div>
+
+    <section id="payments" class="card">
+      <h3>Member payment (MPesa)</h3>
+      <p>Follow these instructions to pay via MPesa:</p>
+      <ol>
+        <li>Open your M-Pesa on your phone</li>
+        <li>Choose Lipa na M-Pesa → Paybill</li>
+        <li>Business No: <strong>123456</strong> (replace with your Paybill), Account: <strong>MemberNo or VYG</strong></li>
+        <li>Enter amount and pay — or click the button below to initiate STK Push (server required).</li>
+      </ol>
+
+      <div class="btn-row">
+        <button class="btn" onclick="redirectToMpesa(1100, 'Membership-2024', '2547XXXXXXXX')">Pay Membership (KSh 1,100)</button>
+        <button class="btn ghost" onclick="redirectToMpesa(1000, 'Membership-EarlyBird', '2547XXXXXXXX')">Early bird (KSh 1,000)</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Quick links</h3>
+      <ul>
+        <li><a href="downloads.html">Downloads & forms</a></li>
+        <li><a href="loan-application.html">Loan application wizard</a></li>
+        <li><a href="events.html">Events & AGM</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">&copy; Visionary Youth Group — Nairobi 2024</div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+:root {
+    --accent: #0f62fe;
+    --muted: #6b7280;
+    --bg: #f8fafc
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    font-family: Inter, system-ui, Segoe UI, Arial, sans-serif;
+    background: var(--bg);
+    margin: 0;
+    color: #0b1220
+}
+
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 18px
+}
+
+.site-header {
+    background: linear-gradient(90deg, #0ea5e9, #6366f1);
+    color: #fff;
+    padding: 18px
+}
+
+.site-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.brand {
+    font-weight: 700
+}
+
+.nav a {
+    color: #fff;
+    margin-left: 12px;
+    text-decoration: none
+}
+
+.hero {
+    padding: 20px 0
+}
+
+.hero-card {
+    background: #fff;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.06)
+}
+
+.lead {
+    color: var(--muted)
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px
+}
+
+.gap {
+    gap: 12px
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 14px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer
+}
+
+.btn.ghost {
+    background: #fff;
+    color: var(--accent);
+    border: 1px solid rgba(2, 6, 23, 0.06)
+}
+
+.card {
+    background: #fff;
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.04);
+    margin-top: 12px
+}
+
+.auth-container {
+    max-width: 520px;
+    margin: 40px auto;
+    padding: 18px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.04)
+}
+
+.auth-container h2 {
+    margin-top: 0
+}
+
+.auth-container label {
+    display: block;
+    margin-bottom: 10px
+}
+
+.auth-container input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e6eef7
+}
+
+.auth-actions {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0
+}
+
+.msg {
+    color: #dc2626;
+    margin-top: 8px
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 14px
+}
+
+.header {
+    background: #fff;
+    padding: 12px 0;
+    box-shadow: 0 1px 4px rgba(2, 6, 23, 0.04)
+}
+
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+@media(max-width:640px) {
+    .site-header .container {
+        flex-direction: column;
+        gap: 8px
+    }
+    .row {
+        flex-direction: column
+    }
+    .auth-container {
+        margin: 20px
+    }
+}
