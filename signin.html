@@ -1,36 +1,145 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Member Login | Visionary Youth Group</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In — Visionary Youth Group</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #007bff, #6c63ff);
+      font-family: 'Poppins', sans-serif;
+    }
+    .auth-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    input {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-top: 0.3rem;
+      font-size: 1rem;
+    }
+    .btn {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+    .auth-actions {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .auth-actions a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .auth-actions a:hover {
+      text-decoration: underline;
+    }
+    .msg {
+      color: red;
+      font-size: 0.85rem;
+      min-height: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Member Login</h2>
-    <input type="text" id="memberNo" placeholder="Member Number" required />
-    <input type="password" id="password" placeholder="Password" required />
-    <button id="loginBtn">Login</button>
-    <p><a href="reset.html">Forgot password?</a></p>
-    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
-  </div>
+  <main class="auth-container">
+    <h2>Member Sign In</h2>
+    <form id="signinForm" novalidate>
+      <label>Member No or Email
+        <input id="memberNo" name="memberNo" placeholder="e.g. VYG-0001 or you@example.com" required>
+      </label>
 
-  <script type="module">
-    import { auth } from "./firebase-config.js";
-    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+      <label>Password
+        <input id="password" name="password" type="password" required>
+      </label>
 
-    const loginBtn = document.getElementById('loginBtn');
-    loginBtn.addEventListener('click', async () => {
-      const email = document.getElementById('memberNo').value.trim();
-      const password = document.getElementById('password').value.trim();
+      <div class="auth-actions">
+        <a href="reset.html">Forgot password?</a> |
+        <a href="signup.html">Sign up</a>
+      </div>
+
+      <button type="submit" class="btn">Sign in</button>
+      <p id="signinMessage" class="msg"></p>
+    </form>
+  </main>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js"></script>
+
+  <!-- Your Firebase Config -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA_OCu7HQ5HCH2OYx5dQ2Z1r7YPwQJave4",
+      authDomain: "visionary-youth-grou-2024.firebaseapp.com",
+      databaseURL: "https://visionary-youth-grou-2024-default-rtdb.firebaseio.com",
+      projectId: "visionary-youth-grou-2024",
+      storageBucket: "visionary-youth-grou-2024.appspot.com",
+      messagingSenderId: "372978592717",
+      appId: "1:372978592717:web:1c15aec728ee5f854f3284"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+  </script>
+
+  <script>
+    const signinForm = document.getElementById("signinForm");
+    const msg = document.getElementById("signinMessage");
+
+    signinForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.textContent = "Signing in...";
+
+      const email = document.getElementById("memberNo").value.trim();
+      const password = document.getElementById("password").value.trim();
 
       try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert('Login successful!');
-        window.location.href = "home.html";
+        await auth.signInWithEmailAndPassword(email, password);
+        msg.style.color = "green";
+        msg.textContent = "Sign in successful! Redirecting...";
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 1200);
       } catch (error) {
-        alert('Error: ' + error.message);
+        msg.textContent = error.message;
       }
     });
   </script>
