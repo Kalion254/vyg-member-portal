@@ -27,11 +27,12 @@
 
     .card {
       background: #fff;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       padding: 20px;
       margin: 20px auto;
       max-width: 1000px;
+      transition: 0.3s;
     }
 
     .balances {
@@ -47,10 +48,13 @@
       padding: 16px;
       text-align: center;
       transition: 0.3s;
+      cursor: pointer;
+      transform: scale(1);
     }
 
     .balance-card:hover {
       transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     }
 
     .balance-card h4 {
@@ -62,6 +66,10 @@
       margin: 4px 0 0;
       font-weight: bold;
       font-size: 1.3em;
+    }
+
+    .hidden {
+      display: none;
     }
 
     .table {
@@ -101,6 +109,28 @@
       border: 2px solid white;
     }
 
+    .loan-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      background: #004aad;
+      color: white;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .loan-item h4 {
+      margin: 0;
+      font-size: 0.9em;
+    }
+
+    .loan-item p {
+      margin: 4px 0 0;
+      font-weight: bold;
+    }
+
     .center {
       text-align: center;
     }
@@ -120,10 +150,13 @@
     <section class="card">
       <h3>Balances</h3>
       <div class="balances" id="balancesRow"></div>
+      <div class="center" style="margin-top:15px">
+        <button id="toggleTransactionsBtn" class="btn">View Transactions</button>
+      </div>
     </section>
 
     <!-- Transactions Section -->
-    <section class="card">
+    <section class="card hidden" id="transactionsCard">
       <h3>Transactions Report</h3>
       <table class="table">
         <thead>
@@ -139,6 +172,33 @@
       </table>
       <div class="center" style="margin-top:12px">
         <button id="downloadStatementBtn" class="btn">Download Statement</button>
+      </div>
+    </section>
+
+    <!-- Loan Action Bar -->
+    <section class="card">
+      <h3>Loan Action Bar</h3>
+      <div class="loan-bar" id="loanBar">
+        <div class="loan-item">
+          <h4>Loan Amount</h4>
+          <p id="loanAmount">-</p>
+        </div>
+        <div class="loan-item">
+          <h4>Interest Rate</h4>
+          <p id="loanRate">-</p>
+        </div>
+        <div class="loan-item">
+          <h4>Status</h4>
+          <p id="loanStatus">-</p>
+        </div>
+        <div class="loan-item">
+          <h4>Installments</h4>
+          <p id="loanInstallments">-</p>
+        </div>
+        <div class="loan-item">
+          <h4>Repayment Date</h4>
+          <p id="loanRepay">-</p>
+        </div>
       </div>
     </section>
   </main>
@@ -159,23 +219,28 @@
       messagingSenderId: "372978592717",
       appId: "1:372978592717:web:1c15aec728ee5f854f3284"
     };
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database();
 
-    // Load Balances
     const balancesRow = document.getElementById("balancesRow");
     const fundsRows = document.getElementById("fundsRows");
+    const transactionsCard = document.getElementById("transactionsCard");
+    const toggleTransactionsBtn = document.getElementById("toggleTransactionsBtn");
 
-    const user = auth.currentUser;
+    toggleTransactionsBtn.addEventListener("click", () => {
+      transactionsCard.classList.toggle("hidden");
+      toggleTransactionsBtn.textContent = transactionsCard.classList.contains("hidden") ? "View Transactions" : "Hide Transactions";
+    });
 
     auth.onAuthStateChanged(user => {
       if (user) {
         const uid = user.uid;
         const balancesRef = db.ref(`members/${uid}/balances`);
         const txRef = db.ref(`members/${uid}/transactions`);
+        const loanRef = db.ref(`members/${uid}/loan`);
 
-        // Listen to balances
+        // Load balances
         balancesRef.on("value", snap => {
           const data = snap.val() || {};
           balancesRow.innerHTML = "";
@@ -186,7 +251,6 @@
             { title: "Dividends", key: "dividends" },
             { title: "Unpaid Balances", key: "unpaid" },
             { title: "Outstanding Loans", key: "outstanding" },
-            { title: "Loans", key: "loans" },
           ];
           fields.forEach(f => {
             const amount = data[f.key] || 0;
@@ -199,7 +263,7 @@
           });
         });
 
-        // Listen to transactions
+        // Load transactions
         txRef.on("value", snap => {
           const txns = snap.val() || {};
           fundsRows.innerHTML = "";
@@ -215,18 +279,28 @@
             `;
           });
         });
+
+        // Loan action bar
+        loanRef.on("value", snap => {
+          const loan = snap.val() || {};
+          document.getElementById("loanAmount").textContent = `KES ${loan.amount || 0}`;
+          document.getElementById("loanRate").textContent = `${loan.interest || 0}%`;
+          document.getElementById("loanStatus").textContent = loan.status || "Pending";
+          document.getElementById("loanInstallments").textContent = loan.installments || "-";
+          document.getElementById("loanRepay").textContent = loan.repaymentDate || "-";
+        });
       } else {
         window.location.href = "signin.html";
       }
     });
 
-    // Generate PDF Statement
+    // PDF Generator
     document.getElementById("downloadStatementBtn").addEventListener("click", async () => {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
       doc.setFontSize(16);
-      doc.text("Visionary Youth Group 2024 — Account Statement", 20, 20);
+      doc.text("Visionary Youth Group — Account Statement", 20, 20);
       doc.setFontSize(12);
       doc.text(`Member Email: ${auth.currentUser.email}`, 20, 30);
       doc.text(`Generated: ${new Date().toLocaleString()}`, 20, 36);
@@ -234,9 +308,8 @@
       let y = 50;
       doc.text("Balances:", 20, y);
       y += 6;
-
-      const balancesSnap = await db.ref(`members/${auth.currentUser.uid}/balances`).once("value");
-      const b = balancesSnap.val() || {};
+      const bSnap = await db.ref(`members/${auth.currentUser.uid}/balances`).once("value");
+      const b = bSnap.val() || {};
       for (const [k, v] of Object.entries(b)) {
         doc.text(`${k.toUpperCase()}: KES ${v}`, 30, y);
         y += 6;
@@ -248,11 +321,7 @@
       const txSnap = await db.ref(`members/${auth.currentUser.uid}/transactions`).once("value");
       const txns = txSnap.val() || {};
       Object.values(txns).forEach(tx => {
-        doc.text(
-          `${tx.date || ""} | ${tx.description || ""} | Cr: ${tx.credit || "-"} | Dr: ${tx.debit || "-"}`,
-          20,
-          y
-        );
+        doc.text(`${tx.date || ""} | ${tx.description || ""} | Cr: ${tx.credit || "-"} | Dr: ${tx.debit || "-"}`, 20, y);
         y += 6;
       });
 
