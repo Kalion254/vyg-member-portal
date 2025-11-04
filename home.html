@@ -1,150 +1,276 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Home — Visionary Youth Group</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Home — Visionary Youth Group 2024</title>
+
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* ===== Global Styles ===== */
+    * {
       margin: 0;
-      background: #f4f7f9;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
     }
 
-    .header {
-      background: #004aad;
-      color: #fff;
-      padding: 1rem 0;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    :root {
+      --primary: #002147; /* Deep navy */
+      --accent: #f5b700; /* Gold */
+      --light: #ffffff;
+      --gray: #f4f4f4;
     }
 
-    .header .container {
+    body {
+      background: var(--light);
+      color: #333;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      background: var(--primary);
+      color: var(--light);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      width: 90%;
+      margin: auto;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      max-width: 900px;
-      margin: auto;
-      padding: 0 1rem;
+      flex-wrap: wrap;
     }
 
-    .user-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 600;
     }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 2rem 1rem;
-      flex: 1;
+    .nav-links a {
+      color: var(--light);
+      margin: 0 10px;
+      text-decoration: none;
+      transition: 0.3s;
     }
 
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 2rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      text-align: center;
-    }
-
-    .card h3 {
-      margin-bottom: 1rem;
-      color: #004aad;
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent);
     }
 
     .btn {
-      background: #004aad;
-      color: #fff;
+      background: var(--accent);
+      color: var(--primary);
+      padding: 8px 14px;
       border: none;
-      padding: 0.7rem 1.5rem;
       border-radius: 6px;
-      text-decoration: none;
-      display: inline-block;
-      font-weight: 500;
-      transition: all 0.3s ease;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     .btn:hover {
-      background: #00357a;
+      background: #ffce42;
     }
 
     .btn.ghost {
       background: transparent;
-      color: #004aad;
-      border: 1.5px solid #004aad;
+      border: 1px solid var(--accent);
+      color: var(--accent);
     }
 
     .btn.ghost:hover {
-      background: #004aad;
-      color: #fff;
+      background: var(--accent);
+      color: var(--primary);
     }
 
-    .row.gap {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
-    }
-
-    footer {
-      background: #004aad;
-      color: #fff;
+    /* ===== Hero ===== */
+    .hero {
+      background: linear-gradient(to right, #002147, #003366);
+      color: var(--light);
       text-align: center;
-      padding: 0.8rem 0;
+      padding: 60px 20px;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-style: italic;
+      color: #fdd875;
+    }
+
+    /* ===== Container & Cards ===== */
+    .container {
+      width: 90%;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--gray);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h4 {
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-weight: bold;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    .quick-links {
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--primary);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
       font-size: 0.9rem;
     }
 
     @media (max-width: 600px) {
-      .header .container {
+      .nav-container {
         flex-direction: column;
-        text-align: center;
-      }
-
-      .user-controls {
-        flex-direction: column;
-        gap: 5px;
+        gap: 10px;
       }
     }
   </style>
 </head>
 
 <body>
-  <header class="header">
-    <div class="container">
-      <h1>Visionary Youth Group</h1>
-      <div class="user-controls">
-        <span id="memberName">Member</span> — <strong id="memberNo">VYG-0001</strong>
+  <!-- ===== Navbar ===== -->
+  <header class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">Visionary Youth Group 2024</h1>
+      <nav class="nav-links">
+        <a href="home.html" class="active">Home</a>
+        <a href="funds.html">Funds</a>
+        <a href="loan-application.html">Loans</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="events.html">Events</a>
         <button id="logoutBtn" class="btn ghost">Logout</button>
-      </div>
+      </nav>
     </div>
   </header>
 
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Welcome back, <span id="memberName">Member</span></h2>
+      <p>Member No: <strong id="memberNo">VYG-0001</strong></p>
+      <p class="tagline">Integrity • Commitment • Entrepreneurship</p>
+    </div>
+  </section>
+
+  <!-- ===== Overview ===== -->
   <main class="container">
-    <section class="card">
-      <h3>Welcome to Your Member Portal</h3>
-      <p>Manage your finances, apply for loans, view group funds, and access essential downloads in one place.</p>
-      <div class="row gap">
-        <a class="btn" href="downloads.html">Downloads</a>
-        <a class="btn ghost" href="loan-application.html">Apply for Loan</a>
-        <a class="btn" href="funds.html">Funds</a>
-      </div>
-    </section>
+    <h3>Your Account Overview</h3>
+    <div class="cards">
+      <div class="card"><h4>Monthly Balance</h4><p id="monthlyBalance">KES 0</p></div>
+      <div class="card"><h4>Weekly Balance</h4><p id="weeklyBalance">KES 0</p></div>
+      <div class="card"><h4>Shares</h4><p id="shares">0</p></div>
+      <div class="card"><h4>Outstanding Loan</h4><p id="outstandingLoan">KES 0</p></div>
+      <div class="card"><h4>Dividends</h4><p id="dividends">KES 0</p></div>
+    </div>
+
+    <div class="quick-links">
+      <a href="funds.html" class="btn">View Funds</a>
+      <a href="loan-application.html" class="btn">Apply for Loan</a>
+      <a href="downloads.html" class="btn">Downloads</a>
+      <a href="events.html" class="btn ghost">Events</a>
+    </div>
   </main>
 
-  <footer>
-    &copy; 2025 Visionary Youth Group — Empowering Integrity & Growth
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p>&copy; 2024 Visionary Youth Group, Nairobi. All rights reserved.</p>
+    <p>Empowering Youth • Building the Future</p>
   </footer>
 
-  <script src="app.js"></script>
-</body>
+  <!-- ===== Firebase Integration ===== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
+    // === Firebase Config ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyA_OCu7HQ5HCH2OYx5dQ2Z1r7YPwQJave4",
+      authDomain: "visionary-youth-grou-2024.firebaseapp.com",
+      databaseURL: "https://visionary-youth-grou-2024-default-rtdb.firebaseio.com",
+      projectId: "visionary-youth-grou-2024",
+      storageBucket: "visionary-youth-grou-2024.appspot.com",
+      messagingSenderId: "372978592717",
+      appId: "1:372978592717:web:1c15aec728ee5f854f3284"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    // === Auth State ===
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      const userId = user.uid;
+      const userRef = ref(db, 'members/' + userId);
+      const snapshot = await get(userRef);
+
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        document.getElementById('memberName').textContent = data.fullName || "Member";
+        document.getElementById('memberNo').textContent = data.memberNo || "VYG-0000";
+        document.getElementById('monthlyBalance').textContent = `KES ${data.monthlyBalance || 0}`;
+        document.getElementById('weeklyBalance').textContent = `KES ${data.weeklyBalance || 0}`;
+        document.getElementById('shares').textContent = data.shares || 0;
+        document.getElementById('outstandingLoan').textContent = `KES ${data.outstandingLoan || 0}`;
+        document.getElementById('dividends').textContent = `KES ${data.dividends || 0}`;
+      } else {
+        console.log("No member data found");
+      }
+    });
+
+    // === Logout ===
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      signOut(auth).then(() => {
+        window.location.href = "signin.html";
+      });
+    });
+  </script>
+</body>
 </html>
