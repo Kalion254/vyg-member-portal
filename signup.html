@@ -1,44 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Sign up — Visionary Youth Group</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Visionary Youth Group</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <main class="auth-container">
-        <h2>Create your account</h2>
-        <form id="signupForm" novalidate>
-            <label>Full name
-        <input id="fullname" required />
-      </label>
+  <div class="form-container">
+    <h2>Member Registration</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Strong Password" required />
+    <button id="signupBtn">Sign Up</button>
+    <p>Already have an account? <a href="signin.html">Sign In</a></p>
+  </div>
 
-            <label>Email
-        <input id="email" type="email" required />
-      </label>
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+    import { createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
 
-            <label>Password (min 8 chars, mix of letters & numbers recommended)
-        <input id="su_password" type="password" minlength="8" required />
-      </label>
+    const signupBtn = document.getElementById('signupBtn');
+    signupBtn.addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-            <label>Confirm password
-        <input id="su_confirm" type="password" minlength="8" required />
-      </label>
-
-            <div class="muted">An activation email will be sent — you must verify to sign in.</div>
-
-            <button type="submit" class="btn">Create account</button>
-            <p id="signupMessage" class="msg"></p>
-            <div class="links">
-                <a href="index.html">Back to home</a>
-            </div>
-        </form>
-    </main>
-
-    <script src="app.js"></script>
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(userCred.user);
+        alert('Registration successful! Check your email for activation.');
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    });
+  </script>
 </body>
-
 </html>
