@@ -115,13 +115,12 @@
     </form>
   </main>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js"></script>
+  <!-- Firebase SDK (Modular v9 syntax) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
 
-  <!-- Firebase Config -->
-  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyA_OCu7HQ5HCH2OYx5dQ2Z1r7YPwQJave4",
       authDomain: "visionary-youth-grou-2024.firebaseapp.com",
@@ -131,12 +130,11 @@
       messagingSenderId: "372978592717",
       appId: "1:372978592717:web:1c15aec728ee5f854f3284"
     };
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.database();
-  </script>
 
-  <script>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
     const signupForm = document.getElementById("signupForm");
     const msg = document.getElementById("signupMessage");
 
@@ -155,25 +153,25 @@
       }
 
       try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Save user info in Realtime Database
-        await db.ref("members/" + user.uid).set({
+        await set(ref(db, "members/" + user.uid), {
           fullname: fullname,
           email: email,
           joinedAt: new Date().toISOString()
         });
 
-        // Send verification email
-        await user.sendEmailVerification();
+        await sendEmailVerification(user);
 
         msg.style.color = "green";
-        msg.textContent = "Account created! Verify your email.";
+        msg.textContent = "Account created! Check your email for verification.";
+
         setTimeout(() => {
           window.location.href = "signin.html";
         }, 2000);
       } catch (error) {
+        msg.style.color = "red";
         msg.textContent = error.message;
       }
     });
