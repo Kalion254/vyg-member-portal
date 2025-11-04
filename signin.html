@@ -1,36 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Sign in — Visionary Youth Group</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Login | Visionary Youth Group</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <main class="auth-container">
-        <h2>Member Sign in</h2>
-        <form id="signinForm" novalidate>
-            <label>Member No or Email
-        <input id="memberNo" name="memberNo" placeholder="e.g. VYG-0001 or you@example.com" required>
-      </label>
+  <div class="form-container">
+    <h2>Member Login</h2>
+    <input type="text" id="memberNo" placeholder="Member Number" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button id="loginBtn">Login</button>
+    <p><a href="reset.html">Forgot password?</a></p>
+    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+  </div>
 
-            <label>Password
-        <input id="password" name="password" type="password" required>
-      </label>
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
 
-            <div class="auth-actions">
-                <a href="reset.html">Forgot password?</a> |
-                <a href="signup.html">Sign up</a>
-            </div>
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.addEventListener('click', async () => {
+      const email = document.getElementById('memberNo').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-            <button type="submit" class="btn">Sign in</button>
-            <p id="signinMessage" class="msg"></p>
-        </form>
-    </main>
-
-    <script src="app.js"></script>
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert('Login successful!');
+        window.location.href = "home.html";
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    });
+  </script>
 </body>
-
 </html>
