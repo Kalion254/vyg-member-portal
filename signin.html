@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sign In — Visionary Youth Group</title>
+  <title>Sign in — Visionary Youth Group</title>
   <link rel="stylesheet" href="style.css">
 
   <style>
@@ -21,7 +21,7 @@
       padding: 2rem;
       border-radius: 15px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       text-align: center;
     }
@@ -37,8 +37,8 @@
     label {
       display: flex;
       flex-direction: column;
-      font-size: 0.9rem;
       text-align: left;
+      font-size: 0.9rem;
     }
     input {
       padding: 0.75rem;
@@ -62,32 +62,33 @@
     }
     .auth-actions {
       font-size: 0.9rem;
-      color: #555;
+      color: #777;
     }
     .auth-actions a {
       color: #007bff;
       text-decoration: none;
+      margin: 0 0.25rem;
     }
     .auth-actions a:hover {
       text-decoration: underline;
     }
     .msg {
       color: red;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       min-height: 1rem;
     }
   </style>
 </head>
 <body>
   <main class="auth-container">
-    <h2>Member Sign In</h2>
+    <h2>Member Sign in</h2>
     <form id="signinForm" novalidate>
-      <label>Member No or Email
-        <input id="memberNo" name="memberNo" placeholder="e.g. VYG-0001 or you@example.com" required>
+      <label>Email
+        <input id="email" type="email" placeholder="you@example.com" required />
       </label>
 
       <label>Password
-        <input id="password" name="password" type="password" required>
+        <input id="password" type="password" required />
       </label>
 
       <div class="auth-actions">
@@ -100,13 +101,10 @@
     </form>
   </main>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js";
 
-  <!-- Your Firebase Config -->
-  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyA_OCu7HQ5HCH2OYx5dQ2Z1r7YPwQJave4",
       authDomain: "visionary-youth-grou-2024.firebaseapp.com",
@@ -116,11 +114,10 @@
       messagingSenderId: "372978592717",
       appId: "1:372978592717:web:1c15aec728ee5f854f3284"
     };
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-  </script>
 
-  <script>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
     const signinForm = document.getElementById("signinForm");
     const msg = document.getElementById("signinMessage");
 
@@ -128,16 +125,23 @@
       e.preventDefault();
       msg.textContent = "Signing in...";
 
-      const email = document.getElementById("memberNo").value.trim();
+      const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
 
       try {
-        await auth.signInWithEmailAndPassword(email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        if (!user.emailVerified) {
+          msg.textContent = "Please verify your email before signing in.";
+          return;
+        }
+
         msg.style.color = "green";
-        msg.textContent = "Sign in successful! Redirecting...";
+        msg.textContent = "Login successful! Redirecting...";
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 1200);
+        }, 1500);
       } catch (error) {
         msg.textContent = error.message;
       }
